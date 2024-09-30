@@ -1,4 +1,15 @@
 <template>
+  <app-layout>
+    <home-view />
+  </app-layout>
+</template>
+
+<script setup>
+import { AppLayout } from "@/layouts";
+import { HomeView } from "@/views";
+</script>
+
+<!-- <template>
   <div class="main__wrapper">
     <div class="main__header">
       <img src="@/assets/img/logo.svg" width="300" height="47" alt="V!U!E! Pizza" />
@@ -59,4 +70,4 @@ body {
   }
 }
 
-</style>
+</style> -->
