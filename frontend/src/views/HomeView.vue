@@ -3,9 +3,6 @@ import dough from '../mocks/dough.json'
 import sizes from '../mocks/sizes.json'
 import ingredients from '../mocks/ingredients.json'
 
-
-
-
 </script>
 <template>
 <main class="content">
@@ -15,7 +12,6 @@ import ingredients from '../mocks/ingredients.json'
         <h1 class="title title--big">Конструктор пиццы</h1>
 
         <div class="content__dough">
-
           <div class="sheet">
             <h2 class="title title--small sheet__title">Выберите тесто</h2>
 
@@ -114,3 +110,4 @@ import ingredients from '../mocks/ingredients.json'
   </main>
 
 </template>
+
