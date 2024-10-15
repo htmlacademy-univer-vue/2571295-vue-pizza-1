@@ -1,5 +1,5 @@
 <script setup>
-import { DATA_TRANSFER_PAYLOAD } from '../constants'
+import { DATA_TRANSFER_PAYLOAD } from "@/common/constants"
 
 const emit = defineEmits(['drop'])
 

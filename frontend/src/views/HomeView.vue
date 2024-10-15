@@ -13,6 +13,7 @@ import sizesNumber from '@/common/data/sizes';
 import sizes from '@/mocks/sizes.json';
 import sauces from '@/mocks/sauces.json'
 import saucesName from '@/common/data/sauces'
+import AppDrop from '@/common/components/AppDrop.vue'; // Import AppDrop
   
 
 const selectedDough = ref("");
@@ -59,6 +60,14 @@ const totalPrice = computed(() => {
 
   return basePrice + ingredientsPrice;
 });
+// Handle the drop event for adding ingredients to the pizza
+// Handle the drop event
+function onIngredientDrop(transferData) {
+  const { id } = transferData;
+  if (ingredientCounts[id] !== undefined) {
+    ingredientCounts[id] += 1; // Increment the count when an ingredient is dropped
+  }
+}
 </script>
 
 <template>
@@ -101,6 +110,8 @@ const totalPrice = computed(() => {
            <div class="content__pizza">
 
             <PizzaName v-model="pizzaName" />
+               <!-- Make pizza a drop target using appDrop -->
+          <AppDrop @drop="onIngredientDrop">
             <div class="content__constructor">
             <div :class="`pizza pizza--foundation--${selectedSize}-${selectedSauce}`">
              <!-- <div class="pizza pizza--foundation--normal-tomato">  ???? normal where images-->
@@ -118,6 +129,7 @@ const totalPrice = computed(() => {
 </div>
             </div>
           </div>
+        </AppDrop>
           <!-- :class="`pizza__filling--${ingredients[ingredientId] ? ingredients[ingredientId].name : ''}`" -->
              <PizzaSummary :totalPrice="totalPrice" />
 
