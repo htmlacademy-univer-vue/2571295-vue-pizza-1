@@ -6,7 +6,13 @@ const props = defineProps({
   selectedSauce: String,
 });
 
-defineEmits(['update:sauce']);
+const emit = defineEmits(['update:sauce']);
+
+// Функция для вызова события с определенным значением
+function handleClick(sauce) {
+  console.log(sauce);
+  emit('update:sauce', sauce);
+}
 </script>
 
 <template>
@@ -17,12 +23,13 @@ defineEmits(['update:sauce']);
         :key="item.id"
         class="radio ingredients__input"
       >
+      
         <input
           type="radio"
           name="sauce"
           :value="`${saucesName[item.id]}`"
-          :checked="selectedSauce === saucesName[item.id]"
-          @change="$emit('update:sauce', saucesName[item.id])"
+          :checked="selectedSauce === saucesName[item.id] || (!selectedSauce && item.id === sauces[0].id)"
+          @change="handleClick(saucesName[item.id])"
         />
         <span>{{ item.name }}</span>
       </label>
@@ -30,5 +37,5 @@ defineEmits(['update:sauce']);
   </template>
   
 
-
+  <!-- :checked="saucesName[0] || selectedSauce === saucesName[item.id] " -->
   

@@ -1,6 +1,7 @@
 <script setup>
 import ingredients from '@/mocks/ingredients.json';
 import ingredientsName from '@/common/data/ingredients';
+import AppDrag from '@/common/components/AppDrag.vue'
 
 const props = defineProps({
   ingredientCounts: Object,
@@ -19,15 +20,19 @@ function updateIngredientCount(id, increment) {
   <div class="ingredients__filling">
     <p>Начинка:</p>
     <ul class="ingredients__list">
+     
       <li
         v-for="ingredient in ingredients"
         :key="ingredient.id"
         class="ingredients__item"
       >
+      <!-- Wrap the draggable part inside app-drag -->
+      <app-drag :transferData="{ id: ingredient.id, name: ingredient.name }">
         <span class="filling" :class="`filling--${ingredientsName[ingredient.id]}`">
           {{ ingredient.name }}
-
+      
         </span>
+      </app-drag>
         <div class="counter counter--orange ingredients__counter">
           <button
             type="button"
@@ -53,6 +58,7 @@ function updateIngredientCount(id, increment) {
           </button>
         </div>
       </li>
+
     </ul>
   </div>
 </template>

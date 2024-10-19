@@ -4,26 +4,38 @@ import ingredients from '@/mocks/ingredients.json';
 import DoughSelector from '@/modules/constructor/DoughSelector.vue';
 import SizeSelector from '@/modules/constructor/SizeSelector.vue';
 import SauceSelector from '@/modules/constructor/SauceSelector.vue';
+import ingredientsName from '@/common/data/ingredients';
 import IngredientSelector from '@/modules/constructor/IngredientSelector.vue';
 import PizzaName from '@/modules/constructor/PizzaName.vue';
 import PizzaConstructor from '@/modules/constructor/PizzaConstructor.vue';
 import PizzaSummary from '@/modules/constructor/PizzaSummary.vue';
+import sizesNumber from '@/common/data/sizes';
+import sizes from '@/mocks/sizes.json';
+import sauces from '@/mocks/sauces.json'
+import saucesName from '@/common/data/sauces'
+import AppDrop from '@/common/components/AppDrop.vue'; // Import AppDrop
+  
 
+const selectedDough = ref("");
+const selectedSize = ref(sizesNumber[sizes[0].id]); // Значение по умолчанию
 
-const selectedDough = ref('');
-const selectedSize = ref('');
-const selectedSauce = ref('');
-const pizzaName = ref('');
+const selectedSauce = ref(saucesName[sauces[0].id]); // Значение по умолчанию - первый соус
+const pizzaName = ref("");
+console.log(selectedSauce.value)
 
 const ingredientCounts = reactive({
   1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0, 14: 0, 15: 0,
 });
+
+
+function updateSize(size) {
+  selectedSize.value = size; // Обновляем значение, когда событие приходит из дочернего компонента
+}
 function updateDough(dough) {
   selectedDough.value = dough;
 }
-function updateSize(size) {
-  selectedSize.value = size;
-}
+
+
 
 function updateSauce(sauce) {
   selectedSauce.value = sauce;
@@ -35,7 +47,7 @@ function updateIngredientCount({ id, count }) {
   }
 }
 const totalPrice = computed(() => {
-  let basePrice = 100; // Пример стоимости базы пиццы
+  let basePrice = 0; // Пример стоимости базы пиццы
 
   // Рассчитываем стоимость ингредиентов
   let ingredientsPrice = Object.entries(ingredientCounts).reduce(
@@ -48,6 +60,14 @@ const totalPrice = computed(() => {
 
   return basePrice + ingredientsPrice;
 });
+// Handle the drop event for adding ingredients to the pizza
+// Handle the drop event
+function onIngredientDrop(transferData) {
+  const { id } = transferData;
+  if (ingredientCounts[id] !== undefined) {
+    ingredientCounts[id] += 1; // Increment the count when an ingredient is dropped
+  }
+}
 </script>
 
 <template>
@@ -58,13 +78,13 @@ const totalPrice = computed(() => {
    
 
            <DoughSelector
-          :selectedDough="selectedDough"
-          @update:dough="updateDough" />
+         v-model:dough="selectedDough"/>
 
-           <SizeSelector 
-           :selectedSize="selectedSize"
-           @update:size="updateSize"
-           />
+              <!-- Используем компонент SizeSelector и связываем пропс и событие -->
+    <SizeSelector
+      :selectedSize="selectedSize"
+      @update:size="updateSize"
+    />
    
            <div class="content__ingredients">
              <div class="sheet">
@@ -76,7 +96,7 @@ const totalPrice = computed(() => {
                 :selectedSauce="selectedSauce"
                 @update:sauce="updateSauce"
                 />
-   
+
         <IngredientSelector
           :ingredientCounts="ingredientCounts"
           @update:ingredientCount="updateIngredientCount"
@@ -90,16 +110,27 @@ const totalPrice = computed(() => {
            <div class="content__pizza">
 
             <PizzaName v-model="pizzaName" />
+               <!-- Make pizza a drop target using appDrop -->
+          <AppDrop @drop="onIngredientDrop">
             <div class="content__constructor">
-            <div class="pizza pizza--foundation--big-tomato">
+            <div :class="`pizza pizza--foundation--${selectedSize}-${selectedSauce}`">
+             <!-- <div class="pizza pizza--foundation--normal-tomato">  ???? normal where images-->
               <div class="pizza__wrapper">
-                <div class="pizza__filling pizza__filling--ananas"></div>
-                <div class="pizza__filling pizza__filling--bacon"></div>
-                <div class="pizza__filling pizza__filling--cheddar"></div>
-              </div>
+                <!-- {{ ingredientCounts }}
+                {{ ingredientsName }}
+                {{ ingredients}} -->
+  <div
+    v-for="(count, ingredientId) in ingredientCounts"
+    :key="ingredientId" >
+    <div v-if="count > 0" :class="`pizza__filling pizza__filling--${ingredientsName[ingredientId]}`">
+
+  </div>
+  </div>
+</div>
             </div>
           </div>
-        
+        </AppDrop>
+          <!-- :class="`pizza__filling--${ingredients[ingredientId] ? ingredients[ingredientId].name : ''}`" -->
              <PizzaSummary :totalPrice="totalPrice" />
 
            </div>
