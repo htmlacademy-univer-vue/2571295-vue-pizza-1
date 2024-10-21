@@ -35,7 +35,29 @@ function handleClick(sauce) {
       </label>
     </div>
   </template>
-  
+<style lang="scss" scoped>
+@import "@/assets/scss/app.scss";
+// ingerdients
+.ingredients__sauce {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 
-  <!-- :checked="saucesName[0] || selectedSauce === saucesName[item.id] " -->
+  width: 100%;
+  margin-bottom: 14px;
+
+  p {
+    @include r-s16-h19;
+
+    margin-top: 0;
+    margin-right: 16px;
+    margin-bottom: 10px;
+  }
+}
+
+.ingredients__input {
+  margin-right: 24px;
+  margin-bottom: 10px;
+}
+</style>
   
