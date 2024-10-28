@@ -14,19 +14,20 @@ import sizes from '@/mocks/sizes.json';
 import sauces from '@/mocks/sauces.json'
 import saucesName from '@/common/data/sauces'
 import AppDrop from '@/common/components/AppDrop.vue'; // Import AppDrop
-  
+const TWO_INGREDIENTS = 2;
+const THREE_INGREDIENTS = 3;
+const doughSizeMapper = {
+  light: "small",
+  large: "big",
+};
 
-const selectedDough = ref("");
+const selectedDough = ref("large");
 const selectedSize = ref(sizesNumber[sizes[0].id]); // Значение по умолчанию
-
 const selectedSauce = ref(saucesName[sauces[0].id]); // Значение по умолчанию - первый соус
 const pizzaName = ref("");
-console.log(selectedSauce.value)
-
 const ingredientCounts = reactive({
   1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0, 14: 0, 15: 0,
 });
-
 
 function updateSize(size) {
   selectedSize.value = size; // Обновляем значение, когда событие приходит из дочернего компонента
@@ -34,9 +35,6 @@ function updateSize(size) {
 function updateDough(dough) {
   selectedDough.value = dough;
 }
-
-
-
 function updateSauce(sauce) {
   selectedSauce.value = sauce;
 }
@@ -46,19 +44,33 @@ function updateIngredientCount({ id, count }) {
     ingredientCounts[id] = 0;
   }
 }
+// data input
+console.log(selectedDough.value);
+console.log(selectedSauce.value);
+console.log(selectedSize.value);
+
+let normalizeSize = ref();
+
+
+
 const totalPrice = computed(() => {
   let basePrice = 0; // Пример стоимости базы пиццы
+  if (selectedSize.value == 'small') {
+  normalizeSize.value = 1;
+    console.log(normalizeSize.value)
+} else if (selectedSize.value == 'normal') {
+  normalizeSize.value = 2;
+} else normalizeSize.value = 3;
 
   // Рассчитываем стоимость ингредиентов
   let ingredientsPrice = Object.entries(ingredientCounts).reduce(
-    (sum, [id, count]) => {
+   (sum, [id, count]) => {
       const ingredient = ingredients.find((item) => item.id == id);
       return sum + count * (ingredient ? ingredient.price : 0);
     },
     0
   );
-
-  return basePrice + ingredientsPrice;
+  return normalizeSize.value * (300 + 50 + ingredientsPrice);
 });
 // Handle the drop event for adding ingredients to the pizza
 // Handle the drop event
@@ -108,26 +120,24 @@ function onIngredientDrop(transferData) {
            </div>
    
            <div class="content__pizza">
-
             <PizzaName v-model="pizzaName" />
                <!-- Make pizza a drop target using appDrop -->
           <AppDrop @drop="onIngredientDrop">
             <div class="content__constructor">
-            <div :class="`pizza pizza--foundation--${selectedSize}-${selectedSauce}`">
-             <!-- <div class="pizza pizza--foundation--normal-tomato">  ???? normal where images-->
+            <div  :class="`pizza pizza--foundation--${doughSizeMapper[selectedDough]}-${selectedSauce}`">
               <div class="pizza__wrapper">
-                <!-- {{ ingredientCounts }}
-                {{ ingredientsName }}
-                {{ ingredients}} -->
-  <div
+            <div
     v-for="(count, ingredientId) in ingredientCounts"
     :key="ingredientId" >
-    <div v-if="count > 0" :class="`pizza__filling pizza__filling--${ingredientsName[ingredientId]}`">
-
-  </div>
+    <div v-if="count > 0 " class="pizza__filling" 
+    :class="[`pizza__filling--${ingredientsName[ingredientId]}`,
+  count === TWO_INGREDIENTS && 'pizza__filling--second',
+  count === THREE_INGREDIENTS && 'pizza__filling--third',
+]"> </div>
   </div>
 </div>
-            </div>
+ </div>    
+         
           </div>
         </AppDrop>
           <!-- :class="`pizza__filling--${ingredients[ingredientId] ? ingredients[ingredientId].name : ''}`" -->

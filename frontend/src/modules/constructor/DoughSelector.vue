@@ -30,13 +30,14 @@ function handleClick(doughType) {
             name="dough"
             :value="`${doughSizes[item.id]}`"
             class="visually-hidden"
-            :checked="selectedDough === doughSizes[item.id] || doughSizes[0]"
+            :checked="selectedDough ? selectedDough === doughSizes[item.id] : doughSizes[1]"
             @change="handleClick(doughSizes[item.id])"
           />
-          
           <b>{{ item.name }}</b>
           <span>{{ item.description }}</span>
-        </label>
+          </label>
+     
+        {{ doughSizes[0] }}
       </div>
     </div>
   </div>
