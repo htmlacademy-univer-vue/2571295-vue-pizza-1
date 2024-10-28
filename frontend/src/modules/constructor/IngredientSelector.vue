@@ -30,7 +30,6 @@ function updateIngredientCount(id, increment) {
       <app-drag :transferData="{ id: ingredient.id, name: ingredient.name }">
         <span class="filling" :class="`filling--${ingredientsName[ingredient.id]}`">
           {{ ingredient.name }}
-      
         </span>
       </app-drag>
         <div class="counter counter--orange ingredients__counter">
@@ -52,6 +51,7 @@ function updateIngredientCount(id, increment) {
           <button
             type="button"
             class="counter__button counter__button--plus"
+            :disabled="ingredientCounts[ingredient.id] === 3"
             @click="updateIngredientCount(ingredient.id, 1)"
           >
             <span class="visually-hidden">Больше</span>
