@@ -2,7 +2,6 @@
 import ingredients from '@/mocks/ingredients.json';
 import ingredientsName from '@/common/data/ingredients';
 import AppDrag from '@/common/components/AppDrag.vue'
-import AppCounter from '@/common/components/AppCounter.vue'; // Импортируем компонент AppCounter  
 
 const props = defineProps({
   ingredientCounts: Object,
@@ -13,6 +12,7 @@ function updateIngredientCount(id, increment) {
   emit('update:ingredientCount', { id, count: increment });
 }
 </script>
+
 <template>
   <div class="ingredients__filling">
     <p>Начинка:</p>
@@ -24,13 +24,23 @@ function updateIngredientCount(id, increment) {
             {{ ingredient.name }}
           </span>
         </app-drag>
-        <!-- Новый компонент AppCounter -->
-        <app-counter class="counter counter--orange ingredients__counter" :value="ingredientCounts[ingredient.id]"
-          @increment="updateIngredientCount(ingredient.id, 1)" @decrement="updateIngredientCount(ingredient.id, -1)" />
+        <div class="counter counter--orange ingredients__counter">
+          <button type="button" class="counter__button counter__button--minus"
+            :disabled="ingredientCounts[ingredient.id] === 0" @click="updateIngredientCount(ingredient.id, -1)">
+            <span class="visually-hidden">Меньше</span>
+          </button>
+          <input type="text" name="counter" class="counter__input" :value="ingredientCounts[ingredient.id]" readonly />
+          <button type="button" class="counter__button counter__button--plus"
+            :disabled="ingredientCounts[ingredient.id] === 3" @click="updateIngredientCount(ingredient.id, 1)">
+            <span class="visually-hidden">Больше</span>
+          </button>
+        </div>
       </li>
+
     </ul>
   </div>
 </template>
+
 <style lang="scss" scoped>
 @import "@/assets/scss/app.scss";
 
