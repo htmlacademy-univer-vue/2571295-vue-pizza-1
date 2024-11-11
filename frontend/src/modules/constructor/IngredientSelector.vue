@@ -43,6 +43,7 @@ function updateIngredientCount(id, increment) {
 
 <style lang="scss" scoped>
 @import "@/assets/scss/app.scss";
+@import "@/assets/scss/common.scss";
 
 //fillings
 .filling {
@@ -132,7 +133,6 @@ function updateIngredientCount(id, increment) {
     background-image: url("@/assets/img/filling/salmon.svg");
   }
 }
-
 
 .ingredients__filling {
   width: 100%;
