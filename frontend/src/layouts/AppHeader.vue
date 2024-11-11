@@ -1,17 +1,23 @@
 <template>
-      <header class="header">
+  <header class="header">
     <div class="header__logo">
-      <a href="index.html" class="logo">
+      <!-- <a href="index.html" class="logo"> -->
+      <router-link :to="{ name: home }" class="logo">
         <img src="@/assets/img/logo.svg" alt="V!U!E! Pizza logo" width="90" height="40">
-      </a>
+      </router-link>
+      <!-- </a> -->
     </div>
     <div class="header__cart">
-      <a href="cart.html">0 ₽</a>
+      <!-- <a href="cart.html">0 ₽</a> -->
+      <!-- <RouterLink :to="{ name: 'Cart' }">0 ₽</RouterLink> -->
+      <router-link :to="{ name: cart }" class="logo">0 ₽</router-link>
     </div>
     <div class="header__user">
+      <!-- <RouterLink :to="{ name: 'SignIn' }" class="header__login"
+      ><span>Войти</span></RouterLink> -->
       <a href="#" class="header__login"><span>Войти</span></a>
     </div>
-     </header>
+  </header>
 </template>
 
 <style lang="scss" scoped>

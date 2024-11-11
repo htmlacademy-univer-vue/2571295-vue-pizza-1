@@ -9,64 +9,25 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:ingredientCount']);
-
 function updateIngredientCount(id, increment) {
   emit('update:ingredientCount', { id, count: increment });
 }
-
-
 </script>
-
 <template>
   <div class="ingredients__filling">
     <p>Начинка:</p>
     <ul class="ingredients__list">
-     
-      <li
-        v-for="ingredient in ingredients"
-        :key="ingredient.id"
-        class="ingredients__item"
-      >
-      <!-- Wrap the draggable part inside app-drag -->
-      <app-drag :transferData="{ id: ingredient.id, name: ingredient.name }">
-        <span class="filling" :class="`filling--${ingredientsName[ingredient.id]}`">
-          {{ ingredient.name }}
-      
-        </span>
-      </app-drag>
+      <li v-for="ingredient in ingredients" :key="ingredient.id" class="ingredients__item">
+        <!-- Wrap the draggable part inside app-drag -->
+        <app-drag :transferData="{ id: ingredient.id, name: ingredient.name }">
+          <span class="filling" :class="`filling--${ingredientsName[ingredient.id]}`">
+            {{ ingredient.name }}
+          </span>
+        </app-drag>
         <!-- Новый компонент AppCounter -->
-        <app-counter
-          class="counter counter--orange ingredients__counter"
-          :value="ingredientCounts[ingredient.id]"
-          @increment="updateIngredientCount(ingredient.id, 1)"
-          @decrement="updateIngredientCount(ingredient.id, -1)"
-        />
-        <!-- <div class="counter counter--orange ingredients__counter">
-          <button
-            type="button"
-            class="counter__button counter__button--minus"
-            :disabled="ingredientCounts[ingredient.id] === 0"
-            @click="updateIngredientCount(ingredient.id, -1)"
-          >
-            <span class="visually-hidden">Меньше</span>
-          </button>
-          <input
-            type="text"
-            name="counter"
-            class="counter__input"
-            :value="ingredientCounts[ingredient.id]"
-            readonly
-          />
-          <button
-            type="button"
-            class="counter__button counter__button--plus"
-            @click="updateIngredientCount(ingredient.id, 1)"
-          >
-            <span class="visually-hidden">Больше</span>
-          </button>
-        </div> -->
+        <app-counter class="counter counter--orange ingredients__counter" :value="ingredientCounts[ingredient.id]"
+          @increment="updateIngredientCount(ingredient.id, 1)" @decrement="updateIngredientCount(ingredient.id, -1)" />
       </li>
-
     </ul>
   </div>
 </template>
@@ -194,10 +155,4 @@ function updateIngredientCount(id, increment) {
   margin-top: 10px;
   margin-left: 36px;
 }
-
-
 </style>
-  
-
-
-  
