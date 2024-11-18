@@ -10,7 +10,6 @@ const props = defineProps({
   }
 });
 </script>
-
 <template>
   <button :type="type" :disabled="disabled" class="button">
     <slot></slot>
