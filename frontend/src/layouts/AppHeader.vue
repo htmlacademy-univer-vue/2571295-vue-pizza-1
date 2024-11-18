@@ -1,21 +1,29 @@
 <template>
   <header class="header">
     <div class="header__logo">
-      <!-- <a href="index.html" class="logo"> -->
-      <router-link :to="{ name: home }" class="logo">
+      <router-link :to="{ name: 'home' }" class="logo">
         <img src="@/assets/img/logo.svg" alt="V!U!E! Pizza logo" width="90" height="40">
       </router-link>
       <!-- </a> -->
     </div>
     <div class="header__cart">
-      <!-- <a href="cart.html">0 ₽</a> -->
-      <!-- <RouterLink :to="{ name: 'Cart' }">0 ₽</RouterLink> -->
-      <router-link :to="{ name: cart }" class="logo">0 ₽</router-link>
+      <router-link :to="{ name: 'cart' }" class="logo">0 ₽</router-link>
     </div>
     <div class="header__user">
-      <!-- <RouterLink :to="{ name: 'SignIn' }" class="header__login"
-      ><span>Войти</span></RouterLink> -->
-      <a href="#" class="header__login"><span>Войти</span></a>
+      <router-link :to="{ name: 'profile' }">
+        <picture>
+          <source type="image/webp" srcset="@/assets/img/users/user5@2x.webp 1x, @/assets/img/users/user5@4x.webp 2x">
+          <img src="@/assets/img/users/user5@2x.jpg" srcset="@/assets/img/users/user5@4x.jpg" alt="Василий Ложкин"
+            width="72" height="72">
+        </picture>
+        <!-- <div class="user__name"> -->
+        <span>Василий Ложкин</span>
+        <!-- </div> -->
+
+        <!-- <span>Войти</span> -->
+      </router-link>
+      <router-link :to="{ name: 'login' }" class="header__login"><span>Войти</span></router-link>
+      <!-- <a href="#" class="header__login"><span>Войти</span></a> -->
     </div>
   </header>
 </template>

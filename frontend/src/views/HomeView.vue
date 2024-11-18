@@ -1,18 +1,19 @@
 <script setup>
-import { reactive, ref, computed } from 'vue';
-import ingredients from '@/mocks/ingredients.json';
-import DoughSelector from '@/modules/constructor/DoughSelector.vue';
-import SizeSelector from '@/modules/constructor/SizeSelector.vue';
-import SauceSelector from '@/modules/constructor/SauceSelector.vue';
-import ingredientsName from '@/common/data/ingredients';
-import IngredientSelector from '@/modules/constructor/IngredientSelector.vue';
-import PizzaName from '@/modules/constructor/PizzaName.vue';
-import PizzaSummary from '@/modules/constructor/PizzaSummary.vue';
-import sizesNumber from '@/common/data/sizes';
-import sizes from '@/mocks/sizes.json';
-import sauces from '@/mocks/sauces.json'
-import saucesName from '@/common/data/sauces'
-import AppDrop from '@/common/components/AppDrop.vue'; // Import AppDrop
+import { reactive, ref, computed } from "vue";
+import ingredients from "@/mocks/ingredients.json";
+import DoughSelector from "@/modules/constructor/DoughSelector.vue";
+import SizeSelector from "@/modules/constructor/SizeSelector.vue";
+import SauceSelector from "@/modules/constructor/SauceSelector.vue";
+import ingredientsName from "@/common/data/ingredients.js";
+import IngredientSelector from "@/modules/constructor/IngredientSelector.vue";
+import PizzaName from "@/modules/constructor/PizzaName.vue";
+import PizzaSummary from "@/modules/constructor/PizzaSummary.vue";
+import sizesNumber from "@/common/data/sizes";
+import sizes from "@/mocks/sizes.json";
+import sauces from "@/mocks/sauces.json";
+import saucesName from "@/common/data/sauces.js";
+import AppDrop from "@/common/components/AppDrop.vue"; // Import AppDrop
+
 const TWO_INGREDIENTS = 2;
 const THREE_INGREDIENTS = 3;
 const doughSizeMapper = {
@@ -111,7 +112,6 @@ function onIngredientDrop(transferData) {
               </div>
             </div>
           </AppDrop>
-          <!-- :class="`pizza__filling--${ingredients[ingredientId] ? ingredients[ingredientId].name : ''}`" -->
           <PizzaSummary :totalPrice="totalPrice" />
         </div>
       </div>

@@ -36,7 +36,6 @@ function updateIngredientCount(id, increment) {
           </button>
         </div>
       </li>
-
     </ul>
   </div>
 </template>
@@ -48,23 +47,17 @@ function updateIngredientCount(id, increment) {
 //fillings
 .filling {
   @include r-s14-h16;
-
   position: relative;
-
   display: block;
-
   padding-left: 36px;
 
   &::before {
     @include p_center-v;
-
     display: block;
-
     width: 32px;
     height: 32px;
 
     content: "";
-
     border-radius: 50%;
     background-color: $white;
     background-repeat: no-repeat;
