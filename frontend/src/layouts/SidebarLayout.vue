@@ -21,10 +21,8 @@
   z-index: 2;
   top: 0;
   left: 0;
-
   width: 180px;
   height: 100%;
-
   background-color: rgba($green-500, 0.05);
 }
 
