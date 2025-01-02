@@ -2,7 +2,8 @@
 const props = defineProps({
   type: {
     type: String,
-    default: 'button',
+    default: "button",
+    validator: (value) => ["button", "submit", "reset"].includes(value),
   },
   disabled: {
     type: Boolean,
@@ -16,7 +17,7 @@ const props = defineProps({
   </button>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "@/assets/scss/app.scss";
 
 .button {

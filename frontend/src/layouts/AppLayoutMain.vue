@@ -1,11 +1,11 @@
 <script setup>
-import AppHeader from '../layouts/AppHeader.vue';
+import AppHeader from "@/layouts/AppHeader.vue";
 </script>
 <template>
-    <div class="app_layout">
-       <AppHeader />
-        <slot></slot>
-    </div>
+  <div class="app_layout">
+    <AppHeader />
+    <slot></slot>
+  </div>
 </template>
 <style lang="scss" scoped>
 .app_layout {
@@ -59,4 +59,3 @@ import AppHeader from '../layouts/AppHeader.vue';
     flex-grow: 1;
   }
   </style> -->
-  

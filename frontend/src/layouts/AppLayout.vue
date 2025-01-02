@@ -1,7 +1,7 @@
 <script setup>
-import AppLayoutDefault from '@/layouts/AppLayoutDefault.vue';
-import { shallowRef, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import AppLayoutDefault from "@/layouts/AppLayoutDefault.vue";
+import { shallowRef, watch } from "vue";
+import { useRoute } from "vue-router";
 
 const route = useRoute();
 const layout = shallowRef(null);
@@ -11,7 +11,8 @@ watch(
   async (meta) => {
     try {
       if (meta.layout) {
-        const component = await import(`./${meta.layout}.vue`);
+        const component = await import(/* @vite-ignore */`./${meta.layout}.vue`);
+        // const component = await import(`./${meta.layout}.vue`);
         layout.value = component?.default || AppLayoutDefault;
       } else {
         layout.value = AppLayoutDefault;

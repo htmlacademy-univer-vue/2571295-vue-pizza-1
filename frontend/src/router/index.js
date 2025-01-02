@@ -1,4 +1,3 @@
-
 import { routes } from '@/router/routes.js';
 import { createRouter, createWebHistory } from "vue-router";
 

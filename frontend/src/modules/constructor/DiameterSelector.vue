@@ -1,40 +1,43 @@
 <script setup>
-import sizes from '@/mocks/sizes.json'
-import sizesNumber from '@/common/data/sizes'
-
-const props = defineProps({
-  selectedSize: String,
+defineProps({
+  modelValue: {
+    type: String,
+    required: true,
+  },
+  items: {
+    type: Array,
+    default: () => [],
+  },
 });
 
-const emit = defineEmits(['update:size']);
-
-// Функция для вызова события с определенным значением
-function handleClick(size) {
-  console.log(size);
-  emit('update:size', size);
-}
+const emit = defineEmits(["update:modelValue"]);
 </script>
-
 <template>
   <div class="content__diameter">
     <div class="sheet">
       <h2 class="title title--small sheet__title">Выберите размер</h2>
+
       <div class="sheet__content diameter">
-        <label v-for="item in sizes" :key="item.id" :class="`diameter__input diameter__input--${sizesNumber[item.id]}`">
-          <input type="radio" name="diameter" :value="sizesNumber[item.id]" class="visually-hidden"
-            :checked="!selectedSize && selectedSize === sizesNumber[item.id]"
-            @change="handleClick(sizesNumber[item.id])" />
-          <!-- :checked="!selectedSize && item.id === sizes[0].id || selectedSize === sizesNumber[item.id]" -->
-          <span>{{ item.name }}</span>
+        <label v-for="sizeType in items" :key="sizeType.id" class="diameter__input"
+          :class="`diameter__input--${sizeType.value}`">
+          <input type="radio" name="diameter" :value="sizeType.id" class="visually-hidden"
+            :checked="sizeType.id === modelValue" @input="emit('update:modelValue', sizeType.id)" />
+          <span>{{ sizeType.name }}</span>
         </label>
       </div>
     </div>
   </div>
 </template>
+
 <style lang="scss" scoped>
 @import "@/assets/scss/app.scss";
 
-//diametr
+.content__diameter {
+  width: 373px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
 
 .diameter__input {
   margin-right: 8.7%;
@@ -100,6 +103,48 @@ function handleClick(size) {
     &:checked+span::before {
       box-shadow: $shadow-large;
     }
+  }
+}
+
+.sheet {
+  padding-top: 15px;
+
+  border-radius: 8px;
+  background-color: $white;
+  box-shadow: $shadow-light;
+}
+
+.sheet__title {
+  padding-right: 18px;
+  padding-left: 18px;
+}
+
+.sheet__content {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  margin-top: 8px;
+  padding-top: 18px;
+  padding-right: 18px;
+  padding-left: 18px;
+
+  border-top: 1px solid rgba($green-500, 0.1);
+}
+
+.title {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+
+  color: $black;
+
+  &--big {
+    @include b-s36-h42;
+  }
+
+  &--small {
+    @include b-s18-h21;
   }
 }
 </style>
