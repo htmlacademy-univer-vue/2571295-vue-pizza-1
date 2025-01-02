@@ -79,7 +79,7 @@ const getImage = (image) => new URL(`../assets/img/${image}`, import.meta.url).h
         </div>
 
         <ul v-else class="cart-list sheet">
-          <li v-for="(pizza, id) in cartStore.pizzasExtended" :key="id" class="cart-list__item">
+          <li v-for="(pizza, i) in cartStore.pizzasExtended" :key="i" class="cart-list__item">
             <div class="product cart-list__product">
               <img :src="getImage('product.svg')" class="product__img" width="56" height="56" :alt="pizza.name" />
               <div class="product__text">
