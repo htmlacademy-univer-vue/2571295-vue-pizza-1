@@ -1,60 +1,16 @@
-// import { defineStore } from "pinia";
-
-// export const useCartStore = defineStore("cart", {
-//     state: () => ({
-//         сartTotal: 0,
-//         pizzas: [],
-//         address: {
-//             street: "",
-//             building: "",
-//             flat: "",
-//             comment: "",
-//         },
-//         phone: "",
-//     }),
-//     getters: {},
-//     actions: {
-//         setPhone(phone) {
-//             this.phone = phone;
-//         },
-//         setAddress(address) {
-//             const { street, building, flat, comment } = address;
-//             this.address = { street, building, flat, comment };
-//         },
-//         setStreet(street) {
-//             this.address.street = street;
-//         },
-//         setBuilding(building) {
-//             this.address.building = building;
-//         },
-//         setFlat(flat) {
-//             this.address.flat = flat;
-//         },
-//         setComment(comment) {
-//             this.address.comment = comment;
-//         },
-//     },
-// });
-
-// 3.3. Работа корзины
-// Корзина доступна всем пользователям. Если в корзине нет ни одного товара, то отображается div.cart__empty. Если в корзине есть товары — отображаются все основные блоки:
-// Список товаров.
-// Список дополнительных товаров.
-// Блок данных по доставке.
-// Подвал с кнопками.
+import { defineStore } from "pinia";
 import { pizzaPrice } from "@/common/helpers/pizza-price";
 import { useDataStore } from "@/stores/data";
-import { defineStore } from "pinia";
 
 export const useCartStore = defineStore("cart", {
     state: () => ({
-        phone: "",
         address: {
             street: "",
             building: "",
             flat: "",
             comment: "",
         },
+        phone: "",
         pizzas: [],
         misc: [],
     }),
