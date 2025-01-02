@@ -12,7 +12,6 @@ const profileStore = useProfileStore();
 
 const router = useRouter();
 const deliveryOption = ref("self");
-
 const phone = computed({
   get() {
     return cartStore.phone;
