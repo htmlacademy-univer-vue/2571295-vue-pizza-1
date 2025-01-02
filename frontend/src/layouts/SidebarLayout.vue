@@ -7,7 +7,6 @@
 
       <slot name="sidebar" />
     </div>
-
     <div class="layout__content">
       <slot />
     </div>
