@@ -27,7 +27,7 @@ const logout = async () => {
       </router-link>
     </div>
     <div class="header__cart">
-      <router-link :to="{ name: 'cart' }">{{ cartStore.total }} ₽</router-link>
+      <router-link :to="{ name: 'cart'}">{{ cartStore.total }} ₽</router-link>
     </div>
     <div class="header__user">
       <router-link v-if="authStore.isAuthenticated" :to="{ name: 'profile' }">
