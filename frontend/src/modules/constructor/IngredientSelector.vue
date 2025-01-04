@@ -29,14 +29,25 @@ const inputValue = (ingredient, count) => {
     <p>Начинка:</p>
 
     <ul class="ingredients__list">
-      <li v-for="ingredient in items" :key="ingredient.id" class="ingredients__item">
-        <AppDrag :data-transfer="ingredient" :draggable="values[ingredient.id] < MAX_INGREDIENT_COUNT">
+      <li
+        v-for="ingredient in items"
+        :key="ingredient.id"
+        class="ingredients__item"
+      >
+        <AppDrag
+          :data-transfer="ingredient"
+          :draggable="values[ingredient.id] < MAX_INGREDIENT_COUNT"
+        >
           <span class="filling" :class="`filling--${ingredient.value}`">
             {{ ingredient.name }}
           </span>
         </AppDrag>
-        <AppCounter class="ingredients__counter" :value="values[ingredient.id]" :max="MAX_INGREDIENT_COUNT"
-          @input="inputValue(ingredient.id, $event)" />
+        <AppCounter
+          class="ingredients__counter"
+          :value="values[ingredient.id]"
+          :max="MAX_INGREDIENT_COUNT"
+          @input="inputValue(ingredient.id, $event)"
+        />
       </li>
     </ul>
   </div>

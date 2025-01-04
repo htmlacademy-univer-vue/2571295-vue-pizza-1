@@ -16,8 +16,6 @@ const pizzaStore = usePizzaStore();
 const cartStore = useCartStore();
 const router = useRouter();
 
-
-
 const name = computed({
   get() {
     return pizzaStore.name;
@@ -94,8 +92,11 @@ onMounted(() => {
             </h2>
             <div class="sheet__content ingredients">
               <SauceSelector v-model="sauceId" :items="dataStore.sauces" />
-              <IngredientSelector :values="pizzaStore.ingredientQuantities" :items="dataStore.ingredients"
-                @update="pizzaStore.setIngredientQuantity" />
+              <IngredientSelector
+                :values="pizzaStore.ingredientQuantities"
+                :items="dataStore.ingredients"
+                @update="pizzaStore.setIngredientQuantity"
+              />
             </div>
           </div>
         </div>
@@ -103,15 +104,29 @@ onMounted(() => {
         <div class="content__pizza">
           <label class="input">
             <span class="visually-hidden">Название пиццы</span>
-            <input v-model="name" type="text" name="pizza_name" placeholder="Введите название пиццы" />
+            <input
+              v-model="name"
+              type="text"
+              name="pizza_name"
+              placeholder="Введите название пиццы"
+            />
           </label>
 
-          <PizzaConstructor :dough="pizzaStore.dough.value" :sauce="pizzaStore.sauce.value"
-            :ingredients="pizzaStore.ingredientsExtended" @drop="pizzaStore.incrementIngredientQuantity" />
+          <PizzaConstructor
+            :dough="pizzaStore.dough.value"
+            :sauce="pizzaStore.sauce.value"
+            :ingredients="pizzaStore.ingredientsExtended"
+            @drop="pizzaStore.incrementIngredientQuantity"
+          />
 
           <div class="content__result">
             <p>Итого: {{ pizzaStore.price }} ₽</p>
-            <button type="button" class="button" :disabled="disableSubmit" @click="addToCart">
+            <button
+              type="button"
+              class="button"
+              :disabled="disableSubmit"
+              @click="addToCart"
+            >
               Готовьте!
             </button>
           </div>
@@ -156,7 +171,6 @@ onMounted(() => {
   }
 }
 </style>
-
 
 <!-- <script setup>
 import { reactive, ref, computed } from "vue";

@@ -1,17 +1,23 @@
 <template>
-    <sidebar-layout>
-        <template #sidebar>
-            <router-link class="layout__link" :class="{ 'layout__link--active': routeName === 'orders' }"
-                :to="{ name: 'orders' }">
-                История заказов
-            </router-link>
-            <router-link class="layout__link" :class="{ 'layout__link--active': routeName === 'profile' }"
-                :to="{ name: 'profile' }">
-                Мои данные
-            </router-link>
-        </template>
-        <router-view />
-    </sidebar-layout>
+  <SidebarLayout>
+    <template #sidebar>
+      <router-link
+        class="layout__link"
+        :class="{ 'layout__link--active': routeName === 'orders' }"
+        :to="{ name: 'orders' }"
+      >
+        История заказов
+      </router-link>
+      <router-link
+        class="layout__link"
+        :class="{ 'layout__link--active': routeName === 'profile' }"
+        :to="{ name: 'profile' }"
+      >
+        Мои данные
+      </router-link>
+    </template>
+    <router-view />
+  </SidebarLayout>
 </template>
 
 <script setup>
@@ -28,31 +34,31 @@ const routeName = computed(() => route.name);
 @import "@/assets/scss/app.scss";
 
 .layout__title {
-    margin-bottom: 27px;
+  margin-bottom: 27px;
 }
 
 .layout__link {
-    @include b-s14-h16;
+  @include b-s14-h16;
 
-    display: block;
+  display: block;
 
-    padding: 8px 14px;
+  padding: 8px 14px;
 
-    transition: 0.3s;
+  transition: 0.3s;
 
-    color: $black;
+  color: $black;
 
-    &--active {
-        background-color: rgba($green-500, 0.1);
-    }
+  &--active {
+    background-color: rgba($green-500, 0.1);
+  }
 
-    &:hover {
-        background-color: rgba($green-500, 0.2);
-    }
+  &:hover {
+    background-color: rgba($green-500, 0.2);
+  }
 
-    &:active {
-        color: rgba($black, 0.5);
-    }
+  &:active {
+    color: rgba($black, 0.5);
+  }
 }
 </style>
 

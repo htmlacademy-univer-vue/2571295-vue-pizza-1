@@ -23,7 +23,12 @@ function onDrag({ dataTransfer }) {
 </script>
 
 <template>
-  <div :draggable="true" @dragstart.self="onDrag" @dragover.prevent @dragenter.prevent>
+  <div
+    :draggable="true"
+    @dragstart.self="onDrag"
+    @dragover.prevent
+    @dragenter.prevent
+  >
     <slot></slot>
   </div>
 </template>

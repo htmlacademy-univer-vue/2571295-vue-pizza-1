@@ -24,17 +24,4 @@ const onDrop = ({ dataTransfer }) => {
     }
   }
 };
-// const onDrop = ({ dataTransfer }) => {
-//   if (!dataTransfer) {
-//     return;
-//   }
-
-//   const payload = dataTransfer.getData(DATA_TRANSFER_PAYLOAD);
-
-//   if (payload) {
-//     const transferData = dataTransfer.getData(DATA_TRANSFER_PAYLOAD);
-//     const data = JSON.parse(transferData);
-//     emit("drop", data);
-//   }
-// };
 </script>
