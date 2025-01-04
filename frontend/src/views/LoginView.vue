@@ -1,12 +1,80 @@
+<script setup>
+import { ref, watch } from "vue";
+import { clearValidationErrors, validateFields } from "@/common/validator";
+import { useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
+// Поля формы
+const email = ref("");
+const password = ref("");
+const authStore = useAuthStore();
+const router = useRouter();
+// Инициализация объекта валидации
+const validations = ref({
+  email: {
+    error: "",
+    rules: ["required", "email"],
+  },
+  password: {
+    error: "",
+    rules: ["required"],
+  },
+});
+
+// Общая ошибка
+const errorMessage = ref("");
+
+// Очистка ошибок при изменении значений
+const watchField = (field) => () => {
+  if (errorMessage.value) {
+    errorMessage.value = "";
+  }
+
+  if (validations.value[field]?.error) {
+    clearValidationErrors(validations.value);
+  }
+};
+
+watch(email, watchField("email"));
+watch(password, watchField("password"));
+
+// Проверка формы
+const validateForm = () => {
+  errorMessage.value = ""; // Очистить общую ошибку
+
+  // Выполнить валидацию
+  const isValid = validateFields(
+    { email: email.value, password: password.value },
+    validations.value
+  );
+
+  if (!isValid) {
+    errorMessage.value =
+      "Некоторые поля заполнены неверно. Проверьте их и повторите попытку.";
+    return;
+  }
+
+  // Если валидация успешна, сохранить данные в Pinia
+  authStore.setUser({
+    email: email.value,
+    password: password.value, // Обычно пароль не сохраняют, это только для демонстрации
+  });
+
+  console.log("Данные сохранены в Pinia:", authStore.user);
+
+  // Перенаправить пользователя на главную страницу
+  router.push({ name: "home" });
+};
+</script>
+
 <template>
   <div class="sign-form">
     <router-link :to="{ name: 'home' }" class="close close--white">
-      <span class="visually-hidden">Закрыть форму авторизации</span>
+      <span class="visually-hidden">Закрыть форму</span>
     </router-link>
     <div class="sign-form__title">
-      <h1 class="title title--small">Авторизуйтесь на сайте</h1>
+      <h1 class="title title--small">Форма проверки данных</h1>
     </div>
-    <form action="test.html" method="post">
+    <form @submit.prevent="validateForm">
       <div class="sign-form__input">
         <label class="input">
           <span>E-mail</span>
@@ -17,6 +85,10 @@
             placeholder="example@mail.ru"
           />
         </label>
+        <!-- Безопасный доступ к validations.email.error -->
+        <div class="sign-form__input-error">
+          {{ validations?.email?.error || "" }}
+        </div>
       </div>
 
       <div class="sign-form__input">
@@ -25,22 +97,24 @@
           <input
             v-model="password"
             type="password"
-            name="pass"
+            name="password"
             placeholder="***********"
           />
         </label>
+        <!-- Безопасный доступ к validations.password.error -->
+        <div class="sign-form__input-error">
+          {{ validations?.password?.error || "" }}
+        </div>
       </div>
-      <button type="submit" class="button">Авторизоваться</button>
+
+      <div class="server-error" v-if="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" class="button">Проверить</button>
     </form>
   </div>
 </template>
-
-<script setup>
-import { ref } from "vue";
-
-const email = ref("");
-const password = ref("");
-</script>
 
 <style lang="scss" scoped>
 @import "@/assets/scss/app.scss";

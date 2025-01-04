@@ -17,7 +17,9 @@ export const useAuthStore = defineStore("auth", {
     setUser(user) {
       this.user = user;
     },
-
+    //  logout() {
+    //   this.user = null; // Сбрасывает данные пользователя
+    // },
     async login(credentials) {
       const res = await resources.auth.login(credentials);
       if (res.__state === "success") {
@@ -29,9 +31,13 @@ export const useAuthStore = defineStore("auth", {
     },
 
     async logout() {
-      await resources.auth.logout();
-      jwtService.destroyToken();
-      resources.auth.setAuthHeader("");
+      try {
+        await resources.auth.logout();
+      } catch (e) {
+        console.error("Ошибка при logout:", e);
+      }
+      // jwtService.destroyToken();
+      // resources.auth.setAuthHeader("");
       this.user = null;
     },
 
