@@ -56,52 +56,113 @@ const editPizza = async (index) => {
   await router.push({ name: "home" });
 };
 
+let delOrder = ref(false);
+
 const submit = async () => {
-  if (deliveryOption.value === "home" && profileStore.addresses.length > 0) {
-    cartStore.setAddress(profileStore.addresses[0]);
+  delOrder.value = true;
+
+  if (deliveryOption.value === "new") {
+    // Add a new address to the Pinia store
+    const newAddress = {
+      street: street.value,
+      building: building.value,
+      flat: flat.value || "", // Optional flat
+      comment: "", // Add additional comments if necessary
+    };
+
+    profileStore.addAddress(newAddress); // Call the addAddress action
+    console.log("New address submitted:", newAddress);
+
+    // Set the new address as the delivery address
+    cartStore.setAddress(newAddress);
+  } else if (deliveryOption.value === "self") {
+    cartStore.setAddress({
+      street: "Cамовывоз",
+      building: "",
+      flat: "",
+      comment: "",
+    });
+  } else {
+    const selectedAddress = profileStore.addresses.find(
+      (address) => address.id === deliveryOption.value
+    );
+    cartStore.setAddress(selectedAddress);
   }
+
+  // Save the order
+  cartStore.saveOrder();
+
+  // Redirect to the success page
   await router.push({ name: "success" });
 };
-
-const getImage = (image) => new URL(`../assets/img/${image}`, import.meta.url).href;
+const getImage = (image) =>
+  new URL(`../assets/img/${image}`, import.meta.url).href;
 </script>
 
 <template>
-  <form action="test.html" method="post" class="layout-form" @submit.prevent="submit">
+  <form
+    action="test.html"
+    method="post"
+    class="layout-form"
+    @submit.prevent="submit"
+  >
     <main class="content cart">
       <div class="container">
         <div class="cart__title">
           <h1 class="title title--big">Корзина</h1>
         </div>
-        <div v-if="cartStore.pizzasExtended.length === 0" class="sheet cart__empty">
+        <div
+          v-if="cartStore.pizzasExtended.length === 0 || delOrder"
+          class="sheet cart__empty"
+        >
           <p>В корзине нет ни одного товара</p>
+          <!-- {{ cartStore.pizzasExtended }} -->
         </div>
 
         <ul v-else class="cart-list sheet">
-          <li v-for="(pizza, i) in cartStore.pizzasExtended" :key="i" class="cart-list__item">
+          <li
+            v-for="(pizza, i) in cartStore.pizzasExtended"
+            :key="i"
+            class="cart-list__item"
+          >
             <div class="product cart-list__product">
-              <img :src="getImage('product.svg')" class="product__img" width="56" height="56" :alt="pizza.name" />
+              <img
+                :src="getImage('product.svg')"
+                class="product__img"
+                width="56"
+                height="56"
+                :alt="pizza.name"
+              />
               <div class="product__text">
                 <h2>{{ pizza.name }}</h2>
                 <ul>
                   <li>{{ pizza.size.name }}, {{ pizza.dough.name }}</li>
                   <li>Соус: {{ pizza.sauce.name }}</li>
                   <li>
-                    Начинка: {{ pizza.ingredients.map((i) => i.name).join(", ") }}
+                    Начинка:
+                    {{ pizza.ingredients.map((i) => i.name).join(", ") }}
                   </li>
                 </ul>
               </div>
             </div>
 
-            <AppCounter class="cart-list__counter" :value="pizza.quantity" accent
-              @input="cartStore.setPizzaQuantity(i, $event)" />
+            <AppCounter
+              class="cart-list__counter"
+              :value="pizza.quantity"
+              accent
+              @input="cartStore.setPizzaQuantity(i, $event)"
+            />
 
             <div class="cart-list__price">
               <b>{{ pizza.price }}</b>
             </div>
 
             <div class="cart-list__button">
-              <button type="button" class="cart-list__edit" @click="editPizza(i)">
+              <button
+                type="button"
+                class="cart-list__edit"
+                @click="editPizza(i)"
+              >
                 Изменить
               </button>
             </div>
@@ -110,15 +171,27 @@ const getImage = (image) => new URL(`../assets/img/${image}`, import.meta.url).h
 
         <div class="cart__additional">
           <ul class="additional-list">
-            <li v-for="misc in cartStore.miscExtended" :key="misc.id" class="additional-list__item sheet">
+            <li
+              v-for="misc in cartStore.miscExtended"
+              :key="misc.id"
+              class="additional-list__item sheet"
+            >
               <p class="additional-list__description">
-                <img :src="getImage(`${misc.image}.svg`)" width="39" height="60" :alt="misc.name" />
+                <img
+                  :src="getImage(`${misc.image}.svg`)"
+                  width="39"
+                  height="60"
+                  :alt="misc.name"
+                />
                 <span>{{ misc.name }}</span>
               </p>
-
               <div class="additional-list__wrapper">
-                <AppCounter class="additional-list__counter" :value="misc.quantity" accent
-                  @input="cartStore.setMiscQuantity(misc.id, $event)" />
+                <AppCounter
+                  class="additional-list__counter"
+                  :value="misc?.quantity || 0"
+                  accent
+                  @input="(value) => cartStore.setMiscQuantity(misc.id, value)"
+                />
                 <div class="additional-list__price">
                   <b>× {{ misc.price }} ₽</b>
                 </div>
@@ -126,7 +199,7 @@ const getImage = (image) => new URL(`../assets/img/${image}`, import.meta.url).h
             </li>
           </ul>
         </div>
-
+        <!-- form to add adress  -->
         <div class="cart__form">
           <div class="cart-form">
             <label class="cart-form__select">
@@ -134,16 +207,28 @@ const getImage = (image) => new URL(`../assets/img/${image}`, import.meta.url).h
               <select v-model="deliveryOption" class="select">
                 <option value="self">Заберу сам</option>
                 <option value="new">Новый адрес</option>
-                <option value="home">Дом</option>
+                <option
+                  v-for="address in profileStore.addresses"
+                  :key="address.id"
+                  :value="address.id"
+                >
+                  {{ address.street }}, {{ address.building
+                  }}{{ address.flat ? ", кв. " + address.flat : "" }}
+                </option>
               </select>
             </label>
 
             <label class="input input--big-label">
               <span>Контактный телефон:</span>
-              <input v-model="phone" type="text" name="tel" placeholder="+7 999-999-99-99" />
+              <input
+                v-model="phone"
+                type="text"
+                name="tel"
+                placeholder="+7 999-999-99-99"
+              />
             </label>
 
-            <div v-if="deliveryOption.value === 'new'" class="cart-form__address">
+            <div v-if="deliveryOption === 'new'" class="cart-form__address">
               <span class="cart-form__label">Новый адрес:</span>
               <div class="cart-form__input">
                 <label class="input">
@@ -166,13 +251,20 @@ const getImage = (image) => new URL(`../assets/img/${image}`, import.meta.url).h
             </div>
           </div>
         </div>
+        <!-- the end from -->
       </div>
     </main>
     <section class="footer">
       <div class="footer__more">
-        <router-link :to="{ name: 'home' }" class="button button--border button--arrow">Хочу еще одну</router-link>
+        <router-link
+          :to="{ name: 'home' }"
+          class="button button--border button--arrow"
+          >Хочу еще одну</router-link
+        >
       </div>
-      <p class="footer__text">Перейти к конструктору<br />чтоб собрать ещё одну пиццу</p>
+      <p class="footer__text">
+        Перейти к конструктору<br />чтоб собрать ещё одну пиццу
+      </p>
       <div class="footer__price">
         <b>Итого: {{ cartStore.total }} ₽</b>
       </div>

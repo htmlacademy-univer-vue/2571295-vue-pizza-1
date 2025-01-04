@@ -9,7 +9,7 @@ let x = pizzaStore.totalPrice;
 const props = defineProps({
   totalPrice: Number,
   totalIngredient: Object,
-  pizzaName: String
+  pizzaName: String,
 });
 
 async function addNewPizza() {
@@ -28,7 +28,10 @@ async function addNewPizza() {
     <p>Итого: {{ totalPrice }} ₽</p>
 
     <!-- <button type="button" class="button" :disabled="totalPrice === 0">Готовьте!</button> -->
-    <AppButton @click="addNewPizza" :disabled="pizzaStore.currentPizza.pizzaName === ''">Готовьте!
+    <AppButton
+      @click="addNewPizza"
+      :disabled="pizzaStore.currentPizza.pizzaName === ''"
+      >Готовьте!
     </AppButton>
     <!-- const addToCart = async () => {
   cartStore.savePizza(pizzaStore.$state);

@@ -18,10 +18,20 @@ const emit = defineEmits(["update:modelValue"]);
       <h2 class="title title--small sheet__title">Выберите тесто</h2>
 
       <div class="sheet__content dough">
-        <label v-for="doughType in items" :key="doughType.id" class="dough__input"
-          :class="`dough__input--${doughType.value}`">
-          <input type="radio" name="dough" :value="doughType.id" class="visually-hidden"
-            :checked="doughType.id === modelValue" @input="emit('update:modelValue', doughType.id)" />
+        <label
+          v-for="doughType in items"
+          :key="doughType.id"
+          class="dough__input"
+          :class="`dough__input--${doughType.value}`"
+        >
+          <input
+            type="radio"
+            name="dough"
+            :value="doughType.id"
+            class="visually-hidden"
+            :checked="doughType.id === modelValue"
+            @input="emit('update:modelValue', doughType.id)"
+          />
           <b>{{ doughType.name }}</b>
           <span>{{ doughType.description }}</span>
         </label>
@@ -97,12 +107,11 @@ const emit = defineEmits(["update:modelValue"]);
   }
 
   input {
-    &:checked+b::before {
+    &:checked + b::before {
       box-shadow: $shadow-large;
     }
   }
 }
-
 
 .sheet {
   padding-top: 15px;

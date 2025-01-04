@@ -16,9 +16,18 @@ const emit = defineEmits(["update:modelValue"]);
   <div class="ingredients__sauce">
     <p>Основной соус:</p>
 
-    <label v-for="sauceType in items" :key="sauceType.id" class="radio ingredients__input">
-      <input type="radio" name="sauce" :value="sauceType.value" :checked="sauceType.id === modelValue"
-        @input="emit('update:modelValue', sauceType.id)" />
+    <label
+      v-for="sauceType in items"
+      :key="sauceType.id"
+      class="radio ingredients__input"
+    >
+      <input
+        type="radio"
+        name="sauce"
+        :value="sauceType.value"
+        :checked="sauceType.id === modelValue"
+        @input="emit('update:modelValue', sauceType.id)"
+      />
       <span>{{ sauceType.name }}</span>
     </label>
   </div>
@@ -79,7 +88,7 @@ const emit = defineEmits(["update:modelValue"]);
   }
 
   &:hover {
-    input:not(:checked):not(:disabled)+span {
+    input:not(:checked):not(:disabled) + span {
       &:before {
         border-color: $purple-800;
       }
@@ -89,21 +98,21 @@ const emit = defineEmits(["update:modelValue"]);
   input {
     display: none;
 
-    &:checked+span {
+    &:checked + span {
       &:before {
         border: 6px solid $green-500;
       }
     }
 
     &:disabled {
-      &+span {
+      & + span {
         &:before {
           border-color: $purple-400;
           background-color: $silver-200;
         }
       }
 
-      &:checked+span {
+      &:checked + span {
         &:before {
           border: 6px solid $purple-400;
         }

@@ -28,4 +28,3 @@ export const normalizeSize = (size) => {
     value: sizes[size.id],
   };
 };
-

@@ -18,10 +18,20 @@ const emit = defineEmits(["update:modelValue"]);
       <h2 class="title title--small sheet__title">Выберите размер</h2>
 
       <div class="sheet__content diameter">
-        <label v-for="sizeType in items" :key="sizeType.id" class="diameter__input"
-          :class="`diameter__input--${sizeType.value}`">
-          <input type="radio" name="diameter" :value="sizeType.id" class="visually-hidden"
-            :checked="sizeType.id === modelValue" @input="emit('update:modelValue', sizeType.id)" />
+        <label
+          v-for="sizeType in items"
+          :key="sizeType.id"
+          class="diameter__input"
+          :class="`diameter__input--${sizeType.value}`"
+        >
+          <input
+            type="radio"
+            name="diameter"
+            :value="sizeType.id"
+            class="visually-hidden"
+            :checked="sizeType.id === modelValue"
+            @input="emit('update:modelValue', sizeType.id)"
+          />
           <span>{{ sizeType.name }}</span>
         </label>
       </div>
@@ -37,7 +47,6 @@ const emit = defineEmits(["update:modelValue"]);
   margin-top: 15px;
   margin-bottom: 15px;
 }
-
 
 .diameter__input {
   margin-right: 8.7%;
@@ -100,7 +109,7 @@ const emit = defineEmits(["update:modelValue"]);
   }
 
   input {
-    &:checked+span::before {
+    &:checked + span::before {
       box-shadow: $shadow-large;
     }
   }

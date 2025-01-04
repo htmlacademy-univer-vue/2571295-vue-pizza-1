@@ -1,5 +1,5 @@
 <template>
-    <slot></slot>
+  <slot></slot>
 </template>
 <style lang="scss">
 @import "@/assets/scss/app.scss";
